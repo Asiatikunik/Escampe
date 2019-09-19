@@ -27,3 +27,4 @@ typedef struct BOX BOX;
 
 
 /** PROTOTYPES **/
+void init_plateau();

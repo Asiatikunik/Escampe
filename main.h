@@ -28,3 +28,12 @@ typedef struct BOX BOX;
 
 /** PROTOTYPES **/
 void init_plateau();
+void init_piece1_debug();
+void init_piece2_debug();
+void affiche_paladin(POINT bg, COUL coulP);
+void affiche_licorne(POINT bg, COUL coulP);
+void afficher_quadrillage();
+POINT numBox_to_pointBG_ig1(NUMBOX numB);
+POINT numBox_to_pointBG_ig2(NUMBOX numB);
+NUMBOX Point_ig1_to_numBox(POINT P);
+void afficher_fond();

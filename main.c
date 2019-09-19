@@ -1,6 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include "graphics.h" 
+#include <stdlib.h> 
 #include "main.h"
 
 #define LARGEUR 700

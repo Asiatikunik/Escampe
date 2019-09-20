@@ -54,6 +54,13 @@ void init_piece1_debug(){
 	plateau[1][3].typeP=PALADIN;
 	plateau[1][4].typeP=PALADIN;
 	
+	plateau[0][1].coulP=BLANC;
+	plateau[0][2].coulP=BLANC;
+	plateau[0][3].coulP=BLANC;
+	plateau[1][1].coulP=BLANC;
+	plateau[1][3].coulP=BLANC;
+	plateau[1][4].coulP=BLANC;
+	
 	//NOIR
 	plateau[4][0].typeP=PALADIN;
 	plateau[4][1].typeP=LICORNE;
@@ -61,6 +68,13 @@ void init_piece1_debug(){
 	plateau[4][5].typeP=PALADIN;
 	plateau[5][2].typeP=PALADIN;
 	plateau[5][4].typeP=PALADIN;
+	
+	plateau[4][0].coulP=PALADIN;
+	plateau[4][1].coulP=LICORNE;
+	plateau[4][2].coulP=PALADIN;
+	plateau[4][5].coulP=PALADIN;
+	plateau[5][2].coulP=PALADIN;
+	plateau[5][4].coulP=PALADIN;
 	
 }
 
@@ -73,15 +87,31 @@ void init_piece2_debug(){
 	plateau[4][0].typeP=PALADIN;
 	plateau[5][0].typeP=LICORNE;
 	
+	plateau[0][0].coulP=BLANC;
+	plateau[1][0].coulP=BLANC;
+	plateau[2][0].coulP=BLANC;
+	plateau[3][0].coulP=BLANC;
+	plateau[4][0].coulP=BLANC;
+	plateau[5][0].coulP=BLANC;
+	
 	//NOIR
-	plateau[5][0].typeP=PALADIN;
-	plateau[5][1].typeP=PALADIN;
-	plateau[5][2].typeP=LICORNE;
-	plateau[5][3].typeP=PALADIN;
-	plateau[5][4].typeP=PALADIN;
+	plateau[0][5].typeP=PALADIN;
+	plateau[1][5].typeP=PALADIN;
+	plateau[2][5].typeP=LICORNE;
+	plateau[3][5].typeP=PALADIN;
+	plateau[4][5].typeP=PALADIN;
 	plateau[5][5].typeP=PALADIN;
 	
+	plateau[0][5].coulP=NOIR;
+	plateau[1][5].coulP=NOIR;
+	plateau[2][5].coulP=NOIR;
+	plateau[3][5].coulP=NOIR;
+	plateau[4][5].coulP=NOIR;
+	plateau[5][5].coulP=NOIR;
+	
 }
+
+
 /** LA VUE **/
 
 void afficher_quadrillage(){
@@ -118,7 +148,7 @@ void affiche_licorne(POINT bg, COUL coulP){
 		draw_fill_triangle(p1,p2,p3,lavenderblush);
 		
 	}else{
-		draw_fill_triangle(p1,p2,p3,rouge);
+		draw_fill_triangle(p1,p2,p3,noir);
 	}
 	
 }
@@ -134,12 +164,46 @@ void affiche_paladin(POINT bg, COUL coulP){
 	{
 		draw_fill_rectangle(p1,p2,lavenderblush);
 	}else{
-		draw_fill_rectangle(p1,p2,rouge);
+		draw_fill_rectangle(p1,p2,noir);
 	}
 }
 
-/*void affiche_plateau(int ig){
-	int i,j;*/
+void affiche_plateau(int ig){
+	int i,j;
+	TYPE pion;
+	NUMBOX numcase;
+	POINT p;
+	
+	
+	for(i=0;i<6;i++){
+		for(j=0;j<6;j++)
+		{
+			numcase.l=i;
+			numcase.c=j;
+			p=numBox_to_pointBG_ig1(numcase);
+		
+			
+			pion=plateau[i][j].typeP;
+			switch (pion)
+			{
+				case VIDE:
+				break;
+				
+				case PALADIN:
+				affiche_paladin(p,plateau[i][j].coulP);
+				break;
+				
+				case LICORNE:
+				affiche_licorne(p,plateau[i][j].coulP);
+				default:;
+			}
+		}
+	}
+
+	
+	
+	
+}
 void affiche_lisere(POINT bg, int nblisere){
 	POINT p;
 	p.x=bg.x+50;
@@ -195,17 +259,21 @@ void affiche_all_lisere(){
 /** CONTROLEUR **/
 
 POINT numBox_to_pointBG_ig1(NUMBOX numB){
-	POINT pbg;
-	pbg.x = numB.l*100;
-	pbg.y = numB.c*100;		
+	POINT pbg,debut;
+	debut.x=100;
+	debut.y=600;
+	pbg.x = debut.x + numB.c*100;
+	pbg.y = debut.y - numB.l*100;		
 	return pbg;
 }
 
 POINT numBox_to_pointBG_ig2(NUMBOX numB){
 	
-	POINT pbg;
-	pbg.x = numB.l*100;
-	pbg.y = numB.c*100;		
+	POINT pbg,debut;
+	debut.x=100;
+	debut.y=600;
+	pbg.x = debut.x + numB.c*100;
+	pbg.y = debut.y - numB.l*100;		
 	return pbg;
 }
 
@@ -233,7 +301,7 @@ int main(){
 	affiche_all_lisere();
 	affiche_all();
 	
-	for(i=0;i<15;i++)
+	/*for(i=0;i<15;i++)
 	{
 			p=wait_clic();
 			case1=point_ig1_to_numBox(p);
@@ -249,7 +317,9 @@ int main(){
 			
 			affiche_all();
 		
-	}
+	}*/
+	init_piece2_debug();
+	affiche_plateau(1);
 	wait_escape();    
 	
 

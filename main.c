@@ -45,7 +45,6 @@ void init_plateau(){
 	
 }	
 
-
 void init_piece1_debug(){
 	//BLANC
 	plateau[0][1].typeP=PALADIN;
@@ -84,15 +83,7 @@ void init_piece2_debug(){
 	
 }
 /** LA VUE **/
-void afficher_fond()
-{
-	POINT p1,p2;
-	p1.x=0;
-	p1.y=0;
-	p2.x=800;
-	p2.y=800;
-	draw_fill_rectangle(p1,p2,dimgray);
-}
+
 void afficher_quadrillage(){
 	POINT a, b;
 	int n;
@@ -115,16 +106,15 @@ void afficher_quadrillage(){
 
 void affiche_licorne(POINT bg, COUL coulP){
 	POINT p1,p2,p3;
-	printf("test");
-	p1.x=bg.x+5;
-	p1.y=bg.y+5;
-	p2.x=p1.x+45;
-	p2.y=p1.y+90;
-	p3.x=p1.x+90;
+	
+	p1.x=bg.x+25;
+	p1.y=bg.y+25;
+	p2.x=p1.x+25;
+	p2.y=p1.y+60;
+	p3.x=p1.x+50;
 	p3.y=p1.y;
 	if (coulP == BLANC)
 	{
-		printf("test");
 		draw_fill_triangle(p1,p2,p3,lavenderblush);
 		
 	}else{
@@ -135,10 +125,10 @@ void affiche_licorne(POINT bg, COUL coulP){
 
 void affiche_paladin(POINT bg, COUL coulP){
 	POINT p1,p2;
-	p1.x=bg.x+20;
-	p1.y=bg.y+20;
-	p2.x=p1.x+60;
-	p2.y=p1.y+60;
+	p1.x=bg.x+30;
+	p1.y=bg.y+30;
+	p2.x=p1.x+40;
+	p2.y=p1.y+40;
 	
 	if (coulP == BLANC)
 	{
@@ -148,17 +138,59 @@ void affiche_paladin(POINT bg, COUL coulP){
 	}
 }
 
-/** 	AFFCIHAGE 
-for(i=0;i<6;i++){
-		for(j=0;j<6;j++){
-			printf("%d ",plateau[i][j].lisere);
-		}
-		printf("\n");
+/*void affiche_plateau(int ig){
+	int i,j;*/
+void affiche_lisere(POINT bg, int nblisere){
+	POINT p;
+	p.x=bg.x+50;
+	p.y=bg.y+50;
+	switch (nblisere)
+	{
+		case 1:
+		draw_fill_circle(p,48,lavenderblush);
+		draw_fill_circle(p,46,dimgray);
+		break;
+		
+		case 2:
+		draw_fill_circle(p,48,lavenderblush);
+		draw_fill_circle(p,46,dimgray);
+		draw_fill_circle(p,44,lavenderblush);
+		draw_fill_circle(p,42,dimgray);
+		break;
+		
+		case 3:
+		draw_fill_circle(p,48,lavenderblush);
+		draw_fill_circle(p,46,dimgray);
+		draw_fill_circle(p,44,lavenderblush);
+		draw_fill_circle(p,42,dimgray);
+		draw_fill_circle(p,40,lavenderblush);
+		draw_fill_circle(p,38,dimgray);
+		
+		break;
+		
+		default:;
 	}
-	* */
+	
+	
+}
 
-
-
+void affiche_all_lisere(){
+	int i,j;
+	POINT p;
+	p.x=100;
+	p.y=100;
+	for(i=0;i<6;i++)
+	{
+		for(j=0;j<6;j++)
+		{
+			
+			affiche_lisere(p,plateau[i][j].lisere);
+			p.x+=100;
+		}
+		p.x=100;
+		p.y+=100;
+	}
+}
 
 /** CONTROLEUR **/
 
@@ -177,12 +209,13 @@ POINT numBox_to_pointBG_ig2(NUMBOX numB){
 	return pbg;
 }
 
-NUMBOX Point_ig1_to_numBox(POINT P){
+NUMBOX point_ig1_to_numBox(POINT P){
 	NUMBOX num_case;
 		num_case.l = P.x/100;
 		num_case.c = P.y/100;
 		return num_case;
 }
+
 
 
 int main(){
@@ -195,22 +228,27 @@ int main(){
 	POINT p,pbg;
 	NUMBOX case1;
 	int i;
-	afficher_fond();
+	fill_screen(dimgray);
 	afficher_quadrillage();
+	affiche_all_lisere();
 	affiche_all();
+	
 	for(i=0;i<15;i++)
 	{
-		p=wait_clic();
-		case1=Point_ig1_to_numBox(p);
-		pbg=numBox_to_pointBG_ig1(case1);
-		if(i%2 == 0)
-		{
-			affiche_licorne(pbg,joueur);
-		}
-		else{
-		affiche_paladin(pbg,joueur);
-		}
-		affiche_all();
+			p=wait_clic();
+			case1=point_ig1_to_numBox(p);
+			pbg=numBox_to_pointBG_ig1(case1);
+			
+			if(i%2 == 0)
+			{
+				affiche_licorne(pbg,joueur);
+			}
+			else{
+			affiche_paladin(pbg,joueur);
+			}
+			
+			affiche_all();
+		
 	}
 	wait_escape();    
 	
